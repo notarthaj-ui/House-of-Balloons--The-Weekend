@@ -1,4 +1,3 @@
-const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 const lines = [...document.querySelectorAll('.title-line')];
 
@@ -15,7 +14,9 @@ lines.forEach((line) => {
   });
 });
 
-if (isFinePointer && !reduceMotion) {
+// Keep the artwork's cursor response active on desktop. Coarse/touch pointers
+// still skip this entire block so the page remains calm and responsive on mobile.
+if (isFinePointer) {
   const orb = document.querySelector('.cursor-orb');
   const mouse = { x: innerWidth / 2, y: innerHeight / 2 };
   const orbPosition = { ...mouse };
