@@ -64,6 +64,11 @@
         <button class="play" id="hero-play" type="button"><span>▶</span> Play the first chapter</button>
       </section>
     </main>
+    <aside class="mini-player" id="mini-player" aria-label="Mini player" aria-hidden="true">
+      <img src="assets/cover.jpg" alt="" />
+      <div class="mini-copy"><span>Now playing</span><strong id="mini-title">High for This</strong></div>
+      <div class="mini-controls"><button id="mini-previous" type="button" aria-label="Previous track">↤</button><button class="mini-toggle" id="mini-toggle" type="button" aria-label="Play">▶</button><button id="mini-next" type="button" aria-label="Next track">↦</button></div>
+    </aside>
     <audio id="audio" preload="metadata"></audio>
     <script src="script.js"></script>
   </body>
