@@ -79,12 +79,13 @@ const miniPlayer = document.querySelector('#mini-player');
 const miniTitle = document.querySelector('#mini-title');
 const miniToggle = document.querySelector('#mini-toggle');
 const miniSeek = document.querySelector('#mini-seek');
+const miniProgress = document.querySelector('#mini-progress');
 let activeTrack = 0;
 let mainPlayerIsVisible = true;
 const formatTime = (seconds) => Number.isFinite(seconds) ? `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}` : '0:00';
 function updateMiniPlayer() { const showMini = !mainPlayerIsVisible && !audio.paused; miniPlayer.classList.toggle('is-visible', showMini); miniPlayer.setAttribute('aria-hidden', String(!showMini)); }
 function updateControls() { const playing = !audio.paused; const icon = playing ? 'Ⅱ' : '▶'; toggle.textContent = icon; miniToggle.textContent = icon; toggle.setAttribute('aria-label', playing ? 'Pause' : 'Play'); miniToggle.setAttribute('aria-label', playing ? 'Pause' : 'Play'); heroPlay.innerHTML = `<span>${icon}</span>${playing ? 'Pause current track' : 'Play the first chapter'}`; trackRows.forEach((row, index) => row.classList.toggle('is-active', index === activeTrack)); updateMiniPlayer(); }
-function loadTrack(index, autoplay = false) { activeTrack = (index + tracks.length) % tracks.length; audio.src = tracks[activeTrack][1]; nowPlaying.textContent = tracks[activeTrack][0]; miniTitle.textContent = tracks[activeTrack][0]; seek.value = '0'; miniSeek.value = '0'; timeDisplay.textContent = '0:00 / --:--'; audio.load(); if (autoplay) audio.play().catch(updateControls); updateControls(); }
+function loadTrack(index, autoplay = false) { activeTrack = (index + tracks.length) % tracks.length; audio.src = tracks[activeTrack][1]; nowPlaying.textContent = tracks[activeTrack][0]; miniTitle.textContent = tracks[activeTrack][0]; seek.value = '0'; miniSeek.value = '0'; miniProgress.style.width = '0%'; timeDisplay.textContent = '0:00 / --:--'; audio.load(); if (autoplay) audio.play().catch(updateControls); updateControls(); }
 function togglePlayback() { if (!audio.src) loadTrack(activeTrack); if (audio.paused) audio.play().catch(updateControls); else audio.pause(); }
 trackRows.forEach((row) => { const select = () => loadTrack(Number(row.dataset.track), true); row.addEventListener('click', select); row.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); select(); } }); });
 toggle.addEventListener('click', togglePlayback);
@@ -96,7 +97,7 @@ document.querySelector('#mini-previous').addEventListener('click', () => loadTra
 document.querySelector('#mini-next').addEventListener('click', () => loadTrack(activeTrack + 1, true));
 audio.addEventListener('play', updateControls); audio.addEventListener('pause', updateControls);
 audio.addEventListener('loadedmetadata', () => { timeDisplay.textContent = `0:00 / ${formatTime(audio.duration)}`; });
-audio.addEventListener('timeupdate', () => { const progress = audio.duration ? String((audio.currentTime / audio.duration) * 100) : '0'; seek.value = progress; miniSeek.value = progress; timeDisplay.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`; });
+audio.addEventListener('timeupdate', () => { const progress = audio.duration ? String((audio.currentTime / audio.duration) * 100) : '0'; seek.value = progress; miniSeek.value = progress; miniProgress.style.width = `${progress}%`; timeDisplay.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`; });
 audio.addEventListener('ended', () => loadTrack(activeTrack + 1, true));
 seek.addEventListener('input', () => { if (audio.duration) audio.currentTime = (Number(seek.value) / 100) * audio.duration; });
 miniSeek.addEventListener('input', () => { if (audio.duration) audio.currentTime = (Number(miniSeek.value) / 100) * audio.duration; });

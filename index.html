@@ -68,7 +68,7 @@
       <img src="assets/cover.jpg" alt="" />
       <div class="mini-copy"><span>Now playing</span><strong id="mini-title">High for This</strong></div>
       <div class="mini-controls"><button id="mini-previous" type="button" aria-label="Previous track">↤</button><button class="mini-toggle" id="mini-toggle" type="button" aria-label="Play">▶</button><button id="mini-next" type="button" aria-label="Next track">↦</button></div>
-      <input id="mini-seek" class="mini-seek" type="range" min="0" max="100" value="0" aria-label="Song progress" />
+      <div class="mini-timeline"><span class="mini-progress" id="mini-progress"></span><input id="mini-seek" class="mini-seek" type="range" min="0" max="100" value="0" aria-label="Song progress" /></div>
     </aside>
     <audio id="audio" preload="metadata"></audio>
     <script src="script.js"></script>
