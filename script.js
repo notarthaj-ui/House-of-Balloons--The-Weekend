@@ -92,3 +92,4 @@ audio.addEventListener('ended', () => loadTrack(activeTrack + 1, true));
 seek.addEventListener('input', () => { if (audio.duration) audio.currentTime = (Number(seek.value) / 100) * audio.duration; });
 loadTrack(0);
 
+
