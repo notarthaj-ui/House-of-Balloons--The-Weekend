@@ -40,24 +40,32 @@
         <div class="playlist" aria-label="House of Balloons track list">
           <div class="playlist-heading"><span>Track list</span><span>Runtime</span></div>
           <ol>
-            <li><span class="track-title">High for This</span><time>04:09</time></li>
-            <li><span class="track-title">What You Need</span><time>03:26</time></li>
-            <li><span class="track-title">House of Balloons / Glass Table Girls</span><time>06:47</time></li>
-            <li><span class="track-title">The Morning</span><time>05:14</time></li>
-            <li><span class="track-title">Wicked Games</span><time>05:25</time></li>
-            <li><span class="track-title">The Party &amp; The After Party</span><time>07:39</time></li>
-            <li><span class="track-title">Coming Down</span><time>04:55</time></li>
-            <li><span class="track-title">Loft Music</span><time>06:03</time></li>
-            <li><span class="track-title">The Knowing</span><time>05:42</time></li>
+            <li data-track="0" tabindex="0"><span class="track-title">High for This</span><time>04:09</time></li>
+            <li data-track="1" tabindex="0"><span class="track-title">What You Need</span><time>03:26</time></li>
+            <li data-track="2" tabindex="0"><span class="track-title">House of Balloons / Glass Table Girls</span><time>06:47</time></li>
+            <li data-track="3" tabindex="0"><span class="track-title">The Morning</span><time>05:14</time></li>
+            <li data-track="4" tabindex="0"><span class="track-title">Wicked Games</span><time>05:25</time></li>
+            <li data-track="5" tabindex="0"><span class="track-title">The Party &amp; The After Party</span><time>07:39</time></li>
+            <li data-track="6" tabindex="0"><span class="track-title">Coming Down</span><time>04:55</time></li>
+            <li data-track="7" tabindex="0"><span class="track-title">Loft Music</span><time>06:03</time></li>
+            <li data-track="8" tabindex="0"><span class="track-title">The Knowing</span><time>05:42</time></li>
           </ol>
+        </div>
+        <div class="player" aria-label="Music player">
+          <img class="player-cover" src="assets/cover.jpg" alt="House of Balloons cover" />
+          <div class="player-copy"><span class="player-kicker">Now playing</span><strong id="now-playing">High for This</strong><span id="time-display">0:00 / 4:09</span></div>
+          <div class="player-controls"><button class="control" id="previous" type="button" aria-label="Previous track">↤</button><button class="control control-main" id="play-toggle" type="button" aria-label="Play">▶</button><button class="control" id="next" type="button" aria-label="Next track">↦</button></div>
+          <input id="seek" class="seek" type="range" min="0" max="100" value="0" aria-label="Song progress" />
         </div>
         <div class="release-meta">
           <p><span>Release date</span>March 21, 2011</p>
           <p><span>Total runtime</span>49 min 34 sec</p>
         </div>
-        <button class="play" type="button"><span>▶</span> Play the first chapter</button>
+        <button class="play" id="hero-play" type="button"><span>▶</span> Play the first chapter</button>
       </section>
     </main>
+    <audio id="audio" preload="metadata"></audio>
     <script src="script.js"></script>
   </body>
 </html>
+
