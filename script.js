@@ -79,8 +79,10 @@ const miniPlayer = document.querySelector('#mini-player');
 const miniTitle = document.querySelector('#mini-title');
 const miniToggle = document.querySelector('#mini-toggle');
 let activeTrack = 0;
+let mainPlayerIsVisible = true;
 const formatTime = (seconds) => Number.isFinite(seconds) ? `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}` : '0:00';
-function updateControls() { const playing = !audio.paused; const icon = playing ? 'Ⅱ' : '▶'; toggle.textContent = icon; miniToggle.textContent = icon; toggle.setAttribute('aria-label', playing ? 'Pause' : 'Play'); miniToggle.setAttribute('aria-label', playing ? 'Pause' : 'Play'); heroPlay.innerHTML = `<span>${icon}</span>${playing ? 'Pause current track' : 'Play the first chapter'}`; trackRows.forEach((row, index) => row.classList.toggle('is-active', index === activeTrack)); }
+function updateMiniPlayer() { const showMini = !mainPlayerIsVisible && !audio.paused; miniPlayer.classList.toggle('is-visible', showMini); miniPlayer.setAttribute('aria-hidden', String(!showMini)); }
+function updateControls() { const playing = !audio.paused; const icon = playing ? 'Ⅱ' : '▶'; toggle.textContent = icon; miniToggle.textContent = icon; toggle.setAttribute('aria-label', playing ? 'Pause' : 'Play'); miniToggle.setAttribute('aria-label', playing ? 'Pause' : 'Play'); heroPlay.innerHTML = `<span>${icon}</span>${playing ? 'Pause current track' : 'Play the first chapter'}`; trackRows.forEach((row, index) => row.classList.toggle('is-active', index === activeTrack)); updateMiniPlayer(); }
 function loadTrack(index, autoplay = false) { activeTrack = (index + tracks.length) % tracks.length; audio.src = tracks[activeTrack][1]; nowPlaying.textContent = tracks[activeTrack][0]; miniTitle.textContent = tracks[activeTrack][0]; seek.value = '0'; timeDisplay.textContent = '0:00 / --:--'; audio.load(); if (autoplay) audio.play().catch(updateControls); updateControls(); }
 function togglePlayback() { if (!audio.src) loadTrack(activeTrack); if (audio.paused) audio.play().catch(updateControls); else audio.pause(); }
 trackRows.forEach((row) => { const select = () => loadTrack(Number(row.dataset.track), true); row.addEventListener('click', select); row.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); select(); } }); });
@@ -100,9 +102,8 @@ loadTrack(0);
 
 // The mini player stays out of the way while the full player is visible.
 new IntersectionObserver(([entry]) => {
-  const showMini = !entry.isIntersecting && !audio.paused;
-  miniPlayer.classList.toggle('is-visible', showMini);
-  miniPlayer.setAttribute('aria-hidden', String(!showMini));
+  mainPlayerIsVisible = entry.isIntersecting;
+  updateMiniPlayer();
 }, { threshold: 0.25 }).observe(document.querySelector('.player'));
 
 
